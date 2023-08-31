@@ -5,13 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservas - Reserva</title>
+    <style>
+        section {
+            width: 60%;
+            min-width: 600px;
+            margin: 32px auto 0;
+        }
+        span {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+    </style>
 </head>
 <body>
-    <h2>{{ reserva.cnpj }}</h2>
-    <span>{{ reserva.nome_empresa }}</span>
-    <span>{{ reserva.categoria_empresa }}</span>
-    <span>{{ reserva.quitado }}</span>
-    <span>{{ reserva.stand.localizacao }}</span>
-    <span>{{ reserva.stand.valor }}</span>
+    <section>
+        <h2>{{ reserva.nome_empresa }}</h2>
+        <span>CNPJ: {{ reserva.cnpj }}</span>
+        <span>Categoria: {{ reserva.categoria_empresa }}</span>
+        <span>Quitado?: {{ reserva.quitado }}</span>
+        <span>Localização Stand: {{ reserva.stand.localizacao }}</span>
+        <span>Valor Stand: {{ reserva.stand.valor }}</span>
+    </section>
 </body>
 </html>

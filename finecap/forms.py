@@ -4,12 +4,12 @@ from .models import Reserva
 
 class ReservaForm(ModelForm):
     class Meta:
-        models = Reserva
+        model = Reserva
         fields = '__all__'
         widgets = {
-            'cnpj': forms.TextInput(),
-            'nome_empresa': forms.TextInput(),
-            'categoria_empresa': forms.TextInput(),
-            'quitado': forms.CheckboxInput(),
-            'stand': forms.Select(),
+            'cnpj': forms.TextInput(attrs={'class': 'input'}),
+            'nome_empresa': forms.TextInput(attrs={'class': 'input'}),
+            'categoria_empresa': forms.TextInput(attrs={'class': 'input'}),
+            'quitado': forms.CheckboxInput(attrs={'class': 'check'}),
+            'stand': forms.Select(attrs={'class': 'input'}),
         }
