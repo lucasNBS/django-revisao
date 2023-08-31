@@ -21,8 +21,8 @@ from finecap.views import reservas, reserva, reserva_criar, reserva_editar, rese
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('reservas/', reservas, name='reservas'),
-    path('reserva/<int:id>', reserva, name='reservas'),
-    path('reservas/criar', reserva_criar, name='reservas'),
-    path('reservas/editar/<int:id>', reserva_editar, name='reservas'),
-    path('reservas/remover/<int:id>', reserva_remover, name='reservas'),
+    path('reserva/<int:id>', reserva, name='reserva'),
+    path('reservas/criar', reserva_criar, name='reservas-criar'),
+    path('reservas/editar/<int:id>', reserva_editar, name='reservas-editar'),
+    path('reservas/remover/<int:id>', reserva_remover, name='reservas-remover'),
 ]

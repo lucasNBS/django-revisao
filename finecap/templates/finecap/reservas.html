@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas - Lista</title>
+</head>
+<body>
+    <div>
+        <a href="{% url 'reservas-criar' %}">Criar Reserva</a>
+    </div>
+    {% for reserva in reservas %}
+        <div>
+            <h3>{{ reserva.nome_empresa }}</h3>
+            <span>{{ reserva.quitado }}</span>
+            <span>{{ reserva.stand.localizacao }}</span>
+        </div>
+        <div>
+            <a href="{% url 'reserva' id=reserva.id %}">Detalhar</a>
+            <a href="{% url 'reservas-editar' id=reserva.id %}">Editar</a>
+            <a href="{% url 'reservas-remover' id=reserva.id %}">Remover</a>
+        </div>
+    {% endfor %}
+</body>
+</html>

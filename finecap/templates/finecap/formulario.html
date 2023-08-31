@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas - Formulário</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+
+        <div>
+            <label>CNPJ</label>
+            {{ form.cnpj }}
+        </div>
+        <div>
+            <label>Nome Empresa</label>
+            {{ form.nome_empresa }}
+        </div>
+        <div>
+            <label>Categoria Empresa</label>
+            {{ form.categoria_empresa }}
+        </div>
+        <div>
+            <label>Quitado</label>
+            {{ form.quitado }}
+        </div>
+        <div>
+            <label>Stand</label>
+            {{ form.stand }}
+        </div>
+
+        <button type="submit">Enviar</button>
+
+    </form>
+</body>
+</html>
