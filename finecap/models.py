@@ -14,3 +14,4 @@ class Reserva(models.Model):
     categoria_empresa = models.CharField(max_length=100)
     quitado = models.BooleanField()
     stand = models.OneToOneField(Stand, on_delete=models.CASCADE)
+    data = models.DateField(auto_now_add=True)
