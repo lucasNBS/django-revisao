@@ -1,76 +1,145 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservas - Lista</title>
-    <style>
-        section {
-            width: 60%;
-            min-width: 600px;
-            margin: 32px auto 0;
-        }
-        table {
-            width: 100%;
-        }
-        table, tr, td {
-            padding: 8px 12px;
-            border: 1px solid #bdbdbd;
-            border-collapse: collapse;
-        }
-        tr {
-            width: 100%;
-        }
-        img {
-            width: 16px;
-            height: 16px;
-        }
-        a {
-            text-decoration: none;
-        }
-    </style>
-</head>
-<body>
-    <section>
-        <div>
-            <a href="{% url 'reservas-criar' %}">Criar Reserva</a>
-        </div>
-        <table>
-            {% for reserva in reservas %}
-                <tr>
-                    <td>{{ reserva.nome_empresa }}</td>
-                    <td>{{ reserva.quitado }}</td>
-                    <td>{{ reserva.stand.localizacao }}</td>
-                    <td>
-                        <a href="{% url 'reserva' id=reserva.id %}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                            </svg>
-                            Detalhar
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{% url 'reservas-editar' id=reserva.id %}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                            </svg>
-                            Editar
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{% url 'reservas-remover' id=reserva.id %}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                            </svg>
-                            Remover
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    </section>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			http-equiv="X-UA-Compatible"
+			content="IE=edge" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Reservas - Lista</title>
+		<style>
+			section {
+				width: 60%;
+				min-width: 600px;
+				margin: 32px auto 0;
+			}
+			table {
+				width: 100%;
+			}
+			table,
+			tr,
+			td {
+				padding: 8px 12px;
+				border: 1px solid #bdbdbd;
+				border-collapse: collapse;
+			}
+			tr {
+				width: 100%;
+			}
+			img {
+				width: 16px;
+				height: 16px;
+			}
+			a {
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<body>
+		{% if user.is_authenticated %}
+		<span>{{ user.username }}</span>
+		<a href="{% url 'user-logout' %}">Logout</a>
+		{% endif %}
+		<section>
+			<div>
+				<a href="{% url 'reservas-criar' %}">Criar Reserva</a>
+			</div>
+			<form method="get">
+				<input
+					type="text"
+					placeholder="Empresa"
+					name="empresa" />
+				<input
+					type="radio"
+					value="True"
+					name="quitado" />
+				<input
+					type="radio"
+					value="False"
+					name="quitado" />
+				<input
+					type="text"
+					placeholder="Stand"
+					name="stand" />
+				<input type="submit" />
+			</form>
+			<table>
+				{% for reserva in pag_obj %}
+				<tr>
+					<td>{{ reserva.nome_empresa }}</td>
+					<td>{{ reserva.quitado }}</td>
+					<td>{{ reserva.stand.localizacao }}</td>
+					<td>
+						<a href="{% url 'reserva' id=reserva.id %}">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="16"
+								height="16"
+								fill="currentColor"
+								class="bi bi-search"
+								viewBox="0 0 16 16">
+								<path
+									d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+							</svg>
+							Detalhar
+						</a>
+					</td>
+					<td>
+						<a href="{% url 'reservas-editar' id=reserva.id %}">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="16"
+								height="16"
+								fill="currentColor"
+								class="bi bi-pencil-square"
+								viewBox="0 0 16 16">
+								<path
+									d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+								<path
+									fill-rule="evenodd"
+									d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+							</svg>
+							Editar
+						</a>
+					</td>
+					<td>
+						<a href="{% url 'reservas-remover' id=reserva.id %}">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="16"
+								height="16"
+								fill="currentColor"
+								class="bi bi-x-circle"
+								viewBox="0 0 16 16">
+								<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+								<path
+									d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+							</svg>
+							Remover
+						</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</section>
+		<div>
+			<ul>
+				{% if pag_obj.has_previous %}
+				<li>
+					<a href="?pagina={{ pag_obj.previous_page_number }}&empresa={{ empresa }}&stand={{ stand }}">Anterior</a>
+				</li>
+				{% endif %} {% for page in pag_obj.paginator.page_range %}
+				<li>
+					<a href="?pagina={{ page }}&empresa={{ empresa }}&stand={{ stand }}">{{ page }}</a>
+				</li>
+				{% endfor %} {% if pag_obj.has_next %}
+				<li>
+					<a href="?pagina={{ pag_obj.next_page_number }}&empresa={{ empresa }}&stand={{ stand }}">Seguinte</a>
+				</li>
+				{% endif %}
+			</ul>
+		</div>
+	</body>
 </html>

@@ -1,15 +1,40 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Reserva
 from .forms import ReservaForm
+from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
+@login_required(login_url="/account/login")
 def reservas(request):
     reservas = Reserva.objects.all()
+
+    empresa = request.GET.get("empresa")
+    quitado = request.GET.get("quitado")
+    stand = request.GET.get("stand")
+
+    if empresa:
+        reservas = reservas.filter(nome_empresa__icontains=empresa)
+    if quitado is not None:
+        reservas = reservas.filter(quitado=quitado)
+    if stand:
+        reservas = reservas.filter(stand__valor__icontains=stand)
+
+    paginator = Paginator(reservas, 1)
+    pagina = request.GET.get("pagina")
+    pag_obj = paginator.get_page(pagina)
+
     context = {
-        'reservas': reservas
+        'reservas': reservas,
+        'pag_obj': pag_obj,
+        'empresa': empresa if empresa is not None else "",
+        'quitado': quitado,
+        'stand': stand if stand is not None else "",
     }
     return render(request, 'finecap/reservas.html', context)
 
+@login_required(login_url="/account/login")
 def reserva(request, id=id):
     reserva = get_object_or_404(Reserva, id=id)
     context = {
@@ -17,6 +42,7 @@ def reserva(request, id=id):
     }
     return render(request, 'finecap/reserva.html', context)
 
+@login_required(login_url="/account/login")
 def reserva_criar(request):
     if request.method == 'POST':
         form = ReservaForm(request.POST)
@@ -28,11 +54,13 @@ def reserva_criar(request):
 
     return render(request, 'finecap/formulario.html', { 'form': form })
 
+@login_required(login_url="/account/login")
 def reserva_remover(request, id=id):
     reserva = get_object_or_404(Reserva, id=id)
     reserva.delete()
     return redirect('reservas')
 
+@login_required(login_url="/account/login")
 def reserva_editar(request, id=id):
     reserva = get_object_or_404(Reserva, id=id)
     if request.method == 'POST':

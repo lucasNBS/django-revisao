@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from finecap.views import reservas, reserva, reserva_criar, reserva_editar, reserva_remover
+from user.views import login_user, logout_user, register
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +26,7 @@ urlpatterns = [
     path('reservas/criar', reserva_criar, name='reservas-criar'),
     path('reservas/editar/<int:id>', reserva_editar, name='reservas-editar'),
     path('reservas/remover/<int:id>', reserva_remover, name='reservas-remover'),
+    path('account/login', login_user, name='user-login'),
+    path('account/logout', logout_user, name='user-logout'),
+    path('account/register', register, name='user-register'),
 ]
